@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from "react";
 import NewsCard from "../cards/Newscard";
 import MainLoader from "@/components/loader/MainLoader";
+import { useProviderContext } from "@/context/Provider";
 
 const HomePage = () => {
+  const { handleFavClick } = useProviderContext();
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(false);
   const fetchNews = async () => {
@@ -33,7 +35,15 @@ const HomePage = () => {
         <div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-10">
             {news.map((item, index) => {
-              return <NewsCard key={index} article={item} />;
+              return (
+                <NewsCard
+                  key={index}
+                  article={item}
+                  onFavClick={() => {
+                    handleFavClick(item);
+                  }}
+                />
+              );
             })}
           </div>
         </div>
